@@ -1,12 +1,12 @@
 import org.juego.GameService;
 import org.juego.Question;
 import org.juego.QuestionServlet;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class QuestionServletTest {
 
     @InjectMocks
@@ -29,7 +29,7 @@ public class QuestionServletTest {
     @Mock
     private HttpServletResponse response;
 
-    @Before
+    @BeforeEach
     public void setup() {
         // Initialize the GameService mock
         when(gameService.getFirstQuestion())
@@ -52,26 +52,10 @@ public class QuestionServletTest {
         // Verify that the forward method is called with the correct JSP
         verify(dispatcher).forward(request, response);
     }
-   /* @Test
-      public void testDoGet() throws Exception { // VERSION DE OTRA IA
-        // Set up the request and response
-        when(request.getRequestDispatcher("/question.jsp")).thenReturn(mock(RequestDispatcher.class));
-
-        // Call the doGet method
-        questionServlet.doGet(request, response);
-
-        // Verify that the request attributes were set correctly
-        verify(request).setAttribute("questionText", "Bienvenid@: Desea iniciar el juego?");
-        verify(request).setAttribute("nextQuestionNumber", 1);
-    }*/
 
     @Test
     public void testDoPost_InvalidAnswer() throws Exception {
         // Mock the request and response
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        // Mock RequestDispatcher to ensure it's never null
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         when(request.getRequestDispatcher("/error.jsp")).thenReturn(dispatcher);
 
@@ -80,12 +64,7 @@ public class QuestionServletTest {
         when(request.getParameter("questionNumber")).thenReturn("1");
 
         // Mock gameService and its behavior
-        GameService gameService = mock(GameService.class);
         when(gameService.validateAnswer("Invalid", 1)).thenReturn("Invalid answer");
-
-        // Mock servlet and inject mocked gameService
-        QuestionServlet questionServlet = new QuestionServlet();
-        questionServlet.setGameService(gameService);
 
         // Call the doPost method
         questionServlet.doPost(request, response);
