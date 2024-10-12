@@ -1,9 +1,14 @@
 package org.juego;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GameService {
 
+    private static final Logger logger = LoggerFactory.getLogger(GameService.class);
+
     public String validateAnswer(String answer, int questionNumber) {
-        // Since the radio button values are either "Yes" or "No", we can compare directly.
+        logger.info("Validating answer '{}' for question number {}", answer, questionNumber);
         switch (questionNumber) {
             case 1:
                 return answer.equals("No") ? "Good bye! Never come back" : null;
@@ -14,15 +19,18 @@ public class GameService {
             case 4:
                 return answer.equals("No") ? "Your lie has been revealed. Defeat" : null;
             default:
+                logger.error("Invalid question number {}", questionNumber);
                 return "Invalid question";
         }
     }
 
     public Question getFirstQuestion() {
+        logger.info("Fetching the first question");
         return new Question("Bienvenid@: Desea iniciar el juego?", 1);
     }
 
     public Question getNextQuestion(String answer, int questionNumber) {
+        logger.info("Getting next question for answer '{}' to question number {}", answer, questionNumber);
         switch (questionNumber) {
             case 1:
                 return new Question("You lost your memory: Accept the UFO challenge?", 2);
@@ -33,6 +41,7 @@ public class GameService {
             case 4:
                 return new Question("You've been returned home, victory! Start again?", 1);
             default:
+                logger.error("No next question available for question number {}", questionNumber);
                 return null;
         }
     }
