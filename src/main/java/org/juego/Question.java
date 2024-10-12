@@ -1,4 +1,4 @@
-package org.juego;
+package com.juego;
 
 public class Question {
     private String questionText;
