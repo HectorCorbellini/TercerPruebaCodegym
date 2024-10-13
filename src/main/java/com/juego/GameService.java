@@ -25,7 +25,7 @@ public class GameService {
 
     public Question getFirstQuestion() {
         LOGGER.info("Getting the first question.");
-        return new Question("Bienvenid@: Desea iniciar el juego?", 1);
+        return new Question("Welcome! Want to start the game?", 1);
     }
 
     public Question getNextQuestion(String answer, int questionNumber) {

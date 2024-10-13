@@ -22,7 +22,7 @@ public class GameServiceTest {
     @Test
     public void testGetFirstQuestion() {
         Question question = gameService.getFirstQuestion();
-        assertEquals("Bienvenid@: Desea iniciar el juego?", question.getQuestionText());
+        assertEquals("Welcome! Want to start the game?", question.getQuestionText());
         assertEquals(1, question.getNextQuestionNumber());
     }
 
