@@ -1,42 +1,70 @@
-package com.juego;
-
+import com.juego.GameService;
+import com.juego.Question;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameServiceTest {
+class GameServiceTest {
 
-    private GameService gameService = new GameService();
+    private GameService gameService;
+
+    @BeforeEach
+    void setUp() {
+        // Get the singleton instance before each test
+        gameService = GameService.getInstance();
+    }
 
     @Test
-    public void testValidateAnswer_FirstQuestion_Yes() {
+    void testValidateAnswerCorrectAnswer() {
+        // Test with a correct answer for question 1
         String result = gameService.validateAnswer("Yes", 1);
-        assertNull(result, "Answer 'Yes' for question 1 should not result in expulsion.");
+        assertNull(result, "Correct answer should not trigger expulsion.");
     }
 
     @Test
-    public void testValidateAnswer_FirstQuestion_No() {
+    void testValidateAnswerWrongAnswer() {
+        // Test with a wrong answer for question 1
         String result = gameService.validateAnswer("No", 1);
-        assertEquals("Good bye! Never come back", result, "Answer 'No' for question 1 should expel the user.");
+        assertEquals("Good bye! Never come back", result, "Wrong answer should trigger expulsion.");
     }
 
     @Test
-    public void testGetFirstQuestion() {
-        Question question = gameService.getFirstQuestion();
-        assertEquals("Welcome! Want to start the game?", question.getQuestionText());
-        assertEquals(1, question.getNextQuestionNumber());
+    void testValidateAnswerInvalidQuestion() {
+        // Test with an invalid question number
+        String result = gameService.validateAnswer("Yes", 999);
+        assertEquals("Invalid question", result, "Invalid question number should return 'Invalid question'.");
     }
 
     @Test
-    public void testGetNextQuestion_SecondQuestion() {
-        Question question = gameService.getNextQuestion("Yes", 1);
-        assertNotNull(question);
-        assertEquals("You lost your memory: Accept the UFO challenge?", question.getQuestionText());
-        assertEquals(2, question.getNextQuestionNumber());
+    void testGetFirstQuestion() {
+        // Test the first question retrieval
+        Question firstQuestion = gameService.getFirstQuestion();
+        assertNotNull(firstQuestion, "First question should not be null.");
+        assertEquals("Welcome! Want to start the game?", firstQuestion.getQuestionText(), "First question text is incorrect.");
+        assertEquals(1, firstQuestion.getNextQuestionNumber(), "First question number is incorrect.");
     }
 
     @Test
-    public void testGetNextQuestion_InvalidQuestionNumber() {
-        Question question = gameService.getNextQuestion("Yes", 999);
-        assertNull(question, "Invalid question number should return null.");
+    void testGetNextQuestionValidAnswer() {
+        // Test getting the next question after a correct answer to question 1
+        Question nextQuestion = gameService.getNextQuestion("Yes", 1);
+        assertNotNull(nextQuestion, "Next question should not be null.");
+        assertEquals("You lost your memory: Accept the UFO challenge?", nextQuestion.getQuestionText(), "Next question text is incorrect.");
+        assertEquals(2, nextQuestion.getNextQuestionNumber(), "Next question number is incorrect.");
+    }
+
+    @Test
+    void testGetNextQuestionInvalidQuestion() {
+        // Test getting the next question with an invalid question number
+        Question nextQuestion = gameService.getNextQuestion("Yes", 999);
+        assertNull(nextQuestion, "Next question for invalid question number should be null.");
+    }
+
+    @Test
+    void testSingletonInstance() {
+        // Test that the singleton instance is the same across calls
+        GameService anotherInstance = GameService.getInstance();
+        assertSame(gameService, anotherInstance, "Both instances should be the same.");
     }
 }
