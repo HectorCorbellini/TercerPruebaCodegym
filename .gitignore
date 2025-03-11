@@ -33,6 +33,7 @@ build/
 ### GitHub Configuration ###
 github-config.properties
 push-to-github.sh
+github-push.sh
 !**/src/test/**/build/
 
 ### VS Code ###
