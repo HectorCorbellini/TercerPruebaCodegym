@@ -29,6 +29,10 @@ target/
 /.nb-gradle/
 build/
 !**/src/main/**/build/
+
+### GitHub Configuration ###
+github-config.properties
+push-to-github.sh
 !**/src/test/**/build/
 
 ### VS Code ###

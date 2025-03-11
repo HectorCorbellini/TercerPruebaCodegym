@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <h1>${questionText}</h1>
-    <form action="question" method="post">
+    <form action="" method="post">
         <label for="answer">Your answer:</label>
         <div>
             <input type="radio" id="yes" name="answer" value="Yes" required>

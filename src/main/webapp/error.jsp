@@ -9,7 +9,7 @@
     <h1>You've failed</h1>
     <p>${message}</p>
     <!-- Button to restart the game -->
-    <form action="question" method="get">
+    <form action="" method="get">
         <button type="submit">Start Again</button>
     </form>
 </div>
