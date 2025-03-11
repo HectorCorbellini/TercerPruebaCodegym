@@ -34,6 +34,7 @@ build/
 github-config.properties
 push-to-github.sh
 github-push.sh
+github-push-force.sh
 !**/src/test/**/build/
 
 ### VS Code ###
